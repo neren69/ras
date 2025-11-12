@@ -15,7 +15,6 @@ titanic_data.describe()
 
 numeric = titanic_data.select_dtypes(include=np.number)
 corr = numeric.corr()
-mask = np.triu(np.ones_like(corr, dtype=bool))
 sns.heatmap(corr,annot=True,fmt=".2f" ,cmap='YlGnBu', vmin=-1, vmax=1)
 plt.title('Correlation matrix (numeric features)')
 plt.show()
@@ -79,3 +78,4 @@ if(res==0):
   print("So Sorry! Not Survived")
 else:
   print("Survived")
+
