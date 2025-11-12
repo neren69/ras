@@ -1,0 +1,81 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+titanic_data = pd.read_csv (r"E:\Downloads\titanic\train.csv")
+
+
+titanic_data.head(10)
+
+
+titanic_data.describe()
+
+
+numeric = titanic_data.select_dtypes(include=np.number)
+corr = numeric.corr()
+mask = np.triu(np.ones_like(corr, dtype=bool))
+sns.heatmap(corr,annot=True,fmt=".2f" ,cmap='YlGnBu', vmin=-1, vmax=1)
+plt.title('Correlation matrix (numeric features)')
+plt.show()
+
+
+titanic_data["Survived"].value_counts()
+
+
+#let's visualize the count of survivals wrt pclass
+sns.countplot(x=titanic_data['Survived'], hue=titanic_data['Pclass'])
+
+
+titanic_data["Sex"]
+
+
+sns.countplot(x=titanic_data['Sex'], hue=titanic_data['Survived'])
+
+
+titanic_data.groupby('Sex')[['Survived']].mean()
+
+
+from sklearn.preprocessing import LabelEncoder
+labelencoder = LabelEncoder()
+titanic_data['Sex']= labelencoder.fit_transform(df['Sex'])
+titanic_data.head()
+
+
+titanic_data.isna().sum()
+
+
+titanic_data=titanic_data.drop(['Age'], axis=1)
+
+
+titanic_data_final = titanic_data
+titanic_data_final.head(10)
+
+
+X= titanic_data[['Pclass', 'Sex']]
+Y=titanic_data['Survived']
+
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0)
+
+
+from sklearn.linear_model import LogisticRegression
+log = LogisticRegression(random_state = 0)
+log.fit(X_train, Y_train)
+
+
+pred = print(log.predict(X_test))
+
+
+print(Y_test)
+
+
+import warnings
+warnings.filterwarnings("ignore")
+res= log.predict([[31,1]])
+if(res==0):
+  print("So Sorry! Not Survived")
+else:
+  print("Survived")
